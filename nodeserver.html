@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NodeMCU Data</title>
+</head>
+<body>
+  <h1>NodeMCU Data</h1>
+  <p>Reed Switch State: <span id="proximity"></span></p>
+  <p>LED High Count: <span id="ledCount"></span></p>
+
+  <script>
+    const eventSource = new EventSource('/events');
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      document.getElementById('proximity').textContent = data.proximity;
+      document.getElementById('ledCount').textContent = data.ledCount;
+    };
+
+    eventSource.onerror = (error) => {
+      console.error('Error with SSE:', error);
+    };
+  </script>
+</body>
+</html>
